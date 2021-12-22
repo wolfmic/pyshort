@@ -1,0 +1,14 @@
+version: '3.1'
+
+services:
+  pyshort_redis:
+    image: redis
+  pyshort_flask:
+    depends_on:
+      - pyshort_redis
+    image: agirault/pyshort
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      REDIS_HOST: pyshort_redis
