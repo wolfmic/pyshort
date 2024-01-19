@@ -20,7 +20,6 @@ build:
 deploy:
   stage: deploy
   script:
-    - bash set_env.sh
     - docker compose up -d
   tags:
     - main
