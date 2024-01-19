@@ -1,8 +1,18 @@
 default:
   image: docker/compose
 
+stages:
+  - prepare
+  - build
+  - deploy
+
 variables:
   DOCKER_DRIVER: overlay2
+
+prepare:
+  stage: prepare
+  script:
+    - bash set_env.sh
 
 build:
   stage: build
@@ -15,7 +25,6 @@ build:
 deploy:
   stage: deploy
   script:
-    # - bash set_env.sh
     - docker-compose up -d
   tags:
     - main

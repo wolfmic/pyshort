@@ -1,0 +1,8 @@
+echo -e \
+REDIS_HOST=pyshort_redis \\n\
+VIRTUAL_HOST=${VIRTUAL_HOST} \\n\
+VIRTUAL_PORT=${VIRTUAL_PORT} \\n\
+LETSENCRYPT_EMAIL=${USER_EMAIL} \\n\
+LETSENCRYPT_HOST=${VIRTUAL_HOST} \\n\
+url=https://${VIRTUAL_HOST} \\n\
+> .env_file
