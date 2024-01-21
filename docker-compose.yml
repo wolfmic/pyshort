@@ -3,6 +3,8 @@ version: '3.1'
 services:
   pyshort_redis:
     image: redis
+    networks:
+      - internal
   pyshort_flask:
     depends_on:
       - pyshort_redis
@@ -19,7 +21,10 @@ services:
       url: https://${VIRTUAL_HOST}
     networks:
       - nginx-proxy
+      - internal
 
 networks:
   nginx-proxy:
     external: true
+  internal:
+    external: false
