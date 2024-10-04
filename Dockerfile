@@ -1,10 +1,10 @@
 FROM alpine
 
-RUN apk add python3
+RUN apk add python3 py-pip
 
 COPY requirements.txt /requirements.txt
 
-RUN pip install -r /requirements.txt
+RUN pip install -r /requirements.txt  --break-system-packages
 
 ENV FLASK_APP app.py
 WORKDIR /project
