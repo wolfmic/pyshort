@@ -1,30 +1,30 @@
-version: '3.1'
-
 services:
-  pyshort_redis:
+  cache:
     image: redis
     networks:
       - internal
   pyshort_flask:
     depends_on:
-      - pyshort_redis
-    image: agirault/pyshort
-    build:
-      context: .
-      dockerfile: ./Dockerfile
+      - cache
+    image: reg.rei.ms/wolf/pyshort:arm
     environment:
-      REDIS_HOST: pyshort_redis
-      VIRTUAL_HOST: ${VIRTUAL_HOST}
-      VIRTUAL_PORT: ${VIRTUAL_PORT}
-      LETSENCRYPT_EMAIL: ${USER_EMAIL}
-      LETSENCRYPT_HOST: ${VIRTUAL_HOST}
-      url: https://${VIRTUAL_HOST}
+      REDIS_HOST: cache
+      url: https://${PYSHORT_URL}
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.pyshort.rule: "Host(`${PYSHORT_URL}`)"
+      traefik.docker.network: "traefik"
+      traefik.http.routers.pyshort.entrypoints: "websecure"
+      traefik.http.routers.pyshort.service: pyshort
+      traefik.http.routers.pyshort.certresolver: "le-ssl"
+      traefik.http.services.pyshortloadbalancer.port: "5000"
     networks:
-      - nginx-proxy
+      - traefik
       - internal
 
+
 networks:
-  nginx-proxy:
+  traefik:
     external: true
   internal:
     external: false
