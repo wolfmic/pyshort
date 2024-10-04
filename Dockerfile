@@ -1,4 +1,6 @@
-FROM python:3.10
+FROM alpine
+
+RUN apk add python3
 
 COPY requirements.txt /requirements.txt
 
