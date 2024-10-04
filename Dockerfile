@@ -4,7 +4,7 @@ RUN apk add python3 py-pip
 
 COPY requirements.txt /requirements.txt
 
-ENV FLASK_APP app.py
+ENV FLASK_APP=app.py
 WORKDIR /project
 RUN python -m venv /project/venv
 RUN /project/venv/bin/pip install -r /requirements.txt
