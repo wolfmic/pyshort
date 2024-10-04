@@ -4,10 +4,16 @@ RUN apk add python3 py-pip
 
 COPY requirements.txt /requirements.txt
 
-RUN pip install -r /requirements.txt  --break-system-packages
-
 ENV FLASK_APP app.py
 WORKDIR /project
-ADD . /project
+RUN python -m venv /project/venv
+RUN /project/venv/bin/pip install -r /requirements.txt
 
-ENTRYPOINT ["python", "-m", "flask", "run", "--host=0.0.0.0"]
+COPY app.py /project
+RUN mkdir -p /project/templates
+COPY templates/* /project/templates
+COPY entrypoint.sh /project
+
+EXPOSE 5000
+
+ENTRYPOINT ["/bin/sh", "/project/entrypoint.sh"]
