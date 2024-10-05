@@ -28,11 +28,10 @@ SECRET_KEY = "django-insecure-r0hzsig6$&+2i01^r(2c!(0-%ifikxh^bsxf#fw8mx+50w10s6
 DEBUG = env.get("DEBUG", False)
 
 ALLOWED_HOSTS = [
-    "127.0.0.1"
+    env.get("PYSHORT_HOST")
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    f"{env.get("PYSHORT_HOST", "http://127.0.0.1")}",
     f"https://{env.get("PYSHORT_HOST")}"
 ]
 
