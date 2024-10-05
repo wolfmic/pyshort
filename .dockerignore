@@ -1,0 +1,10 @@
+.git
+*.pyc
+CHANGELOG
+README.md
+static
+.venv
+Dockerfile
+docker-compose.yml
+requirements.in
+db.sqlite3

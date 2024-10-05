@@ -1,19 +1,27 @@
 FROM alpine
 
-RUN apk add python3 py-pip
+RUN mkdir -p /opt/pyshort
+RUN mkdir -p /var/www/static
 
-COPY requirements.txt /requirements.txt
+WORKDIR /opt/pyshort
 
-ENV FLASK_APP=app.py
-WORKDIR /project
-RUN python -m venv /project/venv
-RUN /project/venv/bin/pip install -r /requirements.txt
+ADD . /opt/pyshort/
 
-COPY app.py /project
-RUN mkdir -p /project/templates
-COPY templates/* /project/templates
-COPY entrypoint.sh /project
+RUN apk update
+RUN apk add tree
+RUN apk add python3 nginx
+ADD requirements.txt requirements.txt
+ADD nginx.conf /etc/nginx/http.d/pyshort.conf
 
-EXPOSE 5000
+RUN python -m venv /opt/venv
+RUN /opt/venv/bin/pip install -r requirements.txt
+RUN /opt/venv/bin/pip install pytz --upgrade
+RUN /opt/venv/bin/pip install tzdata --upgrade
+RUN /opt/venv/bin/python manage.py collectstatic
+RUN /opt/venv/bin/python manage.py makemigrations
+RUN /opt/venv/bin/python manage.py migrate
 
-ENTRYPOINT ["/bin/sh", "/project/entrypoint.sh"]
+ADD ./entrypoint.sh ./entrypoint.sh
+
+EXPOSE 80
+ENTRYPOINT ["/bin/sh", "./entrypoint.sh"]

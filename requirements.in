@@ -1,4 +1,4 @@
-Flask
+Django
 Hashids
-redis
 gunicorn
+redis
