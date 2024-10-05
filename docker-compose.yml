@@ -1,32 +1,18 @@
 services:
   cache:
     image: redis
-    networks:
-      - internal
 
   pyshort:
     depends_on:
       - cache
-    image: reg.rei.ms/wolf/pyshort:django
+    image: reg.rei.ms/wolf/pyshort
     environment:
       REDIS_HOST: cache
-      url: https://${PYSHORT_URL}
-    # labels:
-    #   - "traefik.enable=true"
-    #   - "traefik.docker.network=traefik"
-    #   - "traefik.http.routers.pyshort.rule=Host(`${PYSHORT_URL}`)"
-    #   - "traefik.http.routers.pyshort.entrypoints=websecure"
-    #   - "traefik.http.routers.pyshort.service=pyshort"
-    #   - "traefik.http.routers.pyshort.tls.certresolver=le-ssl"
-    #   - "traefik.http.services.pyshort.loadbalancer.server.port=5000"
-    ports:
-      - 5001:80
+      url: https://${PYSHORT_HOST}
+      PYSHORT_HOST: ${PYSHORT_HOST}
     networks:
-      # - traefik
       - internal
 
 networks:
-  # traefik:
-  #   external: true
   internal:
     external: false

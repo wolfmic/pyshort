@@ -22,7 +22,7 @@ python manage.py createsuperuser
 
 ## Docker
 
-Image Docker: reg.rei.ms/wolf/pyshort
+l'image docker est disponnible sur ce gitlab `reg.rei.ms/wolf/pyshort`, un tag arm a été mis à disposition pour raspberry pi et puces Apple Silicon `reg.rei.ms/wolf/pyshort:latest`
 
 Exemple de fichier de composition:
 
@@ -34,7 +34,7 @@ services:
   pyshort:
     depends_on:
       - cache
-    image: reg.rei.ms/wolf/pyshort:arm
+    image: reg.rei.ms/wolf/pyshort
     environment:
       REDIS_HOST: cache
       url: https://${PYSHORT_HOST}
